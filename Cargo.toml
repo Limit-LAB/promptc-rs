@@ -2,6 +2,9 @@
 name = "promptc"
 version = "0.1.0"
 edition = "2021"
+description = "Promptc core"
+license = "MIT"
+repository = "https://Github.com/Limit-LAB/promptc-rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
