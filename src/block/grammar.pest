@@ -1,0 +1,63 @@
+
+
+unit = { (!EOI ~ expr)+ ~ EOI }
+
+
+expr = {
+  normal_text ~ interp?
+}
+
+normal_text = {
+  (!interp ~ ANY)*
+}
+
+interp =
+  { string
+  | easy_script
+  | script
+  | reserved_quota
+  | variable
+  }
+
+reserved_quota = _{
+  "{%" ~ WHITESPACE* ~ "Q" ~ WHITESPACE* ~ "%}"
+}
+
+easy_script = {
+  "{%E" ~ script_text ~ "%}"
+}
+
+script = {
+  "{%" ~ script_text ~ "%}"
+}
+
+script_text = {
+  (!(("{%" ~ "E"?)|"%}") ~ ANY)*
+}
+
+string = {
+  "{{" ~ (!("{{"|"}}") ~ ANY)* ~ "}}"
+}
+
+variable = {
+  "{" ~ string_lit ~ "}"
+}
+
+// -------------------------------------------------------------------
+
+string_lit = @ { (!("{" | "}") ~ ANY)+ }
+
+// escape = _{ "\\\\"
+		  // | "\\\""
+		  // | "\\'"
+		  // | "\\n"
+		  // | "\\r"
+		  // | "\\t"
+		  // }
+
+WHITESPACE = _
+	{ " "
+	| "\t"
+	| WHITE_SPACE
+	| NEWLINE
+	}
