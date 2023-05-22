@@ -36,7 +36,7 @@ script_text = {
 }
 
 string = {
-  "{{" ~ (!("{{"|"}}") ~ ANY)* ~ "}}"
+  "{{" ~ string_lit ~ "}}"
 }
 
 variable = {
