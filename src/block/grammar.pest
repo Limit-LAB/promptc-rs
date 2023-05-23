@@ -8,7 +8,7 @@ expr = {
 }
 
 normal_text = {
-  (!("{%E"|"{%"|"{") ~ ANY)*
+  (!interp ~ ANY)*
 }
 
 interp =
