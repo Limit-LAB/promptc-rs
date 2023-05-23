@@ -29,6 +29,7 @@ pub enum Interp {
   Script(Script),
   Variable(String),
   ReservedQuota,
+  ReservedReservedQuota,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]

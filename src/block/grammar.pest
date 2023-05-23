@@ -8,23 +8,28 @@ expr = {
 }
 
 normal_text = {
-  (!interp ~ ANY)*
+  (!("{%E"|"{%"|"{") ~ ANY)*
 }
 
 interp =
-  { string
-  | easy_script
-  | script
+  { easy_script
+  | reserved_reserved_quota
   | reserved_quota
+  | script
+  | string
   | variable
   }
 
-reserved_quota = _{
+easy_script = {
+  "{%E" ~ script_text ~ "%}"
+}
+
+reserved_quota = @{
   "{%" ~ WHITESPACE* ~ "Q" ~ WHITESPACE* ~ "%}"
 }
 
-easy_script = {
-  "{%E" ~ script_text ~ "%}"
+reserved_reserved_quota = @{
+  "{{%" ~ WHITESPACE* ~ "Q" ~ WHITESPACE* ~ "%}}"
 }
 
 script = {
@@ -32,7 +37,7 @@ script = {
 }
 
 script_text = {
-  (!(("{%" ~ "E"?)|"%}") ~ ANY)*
+  (!"%}" ~ ANY)*
 }
 
 string = {
@@ -45,7 +50,7 @@ variable = {
 
 // -------------------------------------------------------------------
 
-string_lit = @ { (!("{" | "}") ~ ANY)+ }
+string_lit = @ { (!("}") ~ ANY)+ }
 
 // escape = _{ "\\\\"
 		  // | "\\\""

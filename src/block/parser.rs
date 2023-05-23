@@ -39,7 +39,7 @@ impl ParseFrom for Expr {
     debug_assert_eq!(pair.as_rule(), Rule::expr);
     let mut pairs = pair.into_inner();
     let normal_text = pairs.next().unwrap().as_str().to_string();
-    let interp = pairs.next().map(Interp::parse_from);
+    let interp = pairs.next().map(interp_parse_from).flatten();
     Self {
       normal_text,
       interp,
@@ -47,20 +47,20 @@ impl ParseFrom for Expr {
   }
 }
 
-impl ParseFrom for Interp {
-  fn parse_from(pair: Pair<Rule>) -> Self {
+  fn interp_parse_from(pair: Pair<Rule>) -> Option<Interp> {
     debug_assert_eq!(pair.as_rule(), Rule::interp);
-    let pair = pair.into_inner().next().unwrap();
-    match pair.as_rule() {
-      Rule::reserved_quota => Self::ReservedQuota,
-      Rule::easy_script => Self::Script(script_parse_from(pair, true)),
-      Rule::script => Self::Script(script_parse_from(pair, false)),
-      Rule::string => Self::String(pair.into_inner().next().unwrap().as_str().to_string()),
-      Rule::variable => Self::Variable(pair.into_inner().next().unwrap().as_str().to_string()),
+    let pair = pair.into_inner().next()?;
+    let r = match pair.as_rule() {
+      Rule::reserved_quota => Interp::ReservedQuota,
+      Rule::reserved_reserved_quota => Interp::ReservedReservedQuota,
+      Rule::easy_script => Interp::Script(script_parse_from(pair, true)),
+      Rule::script => Interp::Script(script_parse_from(pair, false)),
+      Rule::string => Interp::String(pair.into_inner().next().unwrap().as_str().to_string()),
+      Rule::variable => Interp::Variable(pair.into_inner().next().unwrap().as_str().to_string()),
       _ => unreachable!(),
-    }
+    };
+    Some(r)
   }
-}
 
 #[inline]
 fn script_parse_from(pair: Pair<Rule>, ease_mode: bool) -> Script {

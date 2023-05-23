@@ -10,6 +10,10 @@ edition = "2021"
 name = "exam"
 path = "examples/exam.rs"
 
+[[example]]
+name = "exam1"
+path = "examples/exam1.rs"
+
 
 [dependencies]
 pest = "2.1.3"
