@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 fn main() {
   use promptc::block::Unit;
   let mut args = std::env::args();
