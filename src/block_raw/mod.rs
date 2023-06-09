@@ -1,7 +1,7 @@
 use pest::Parser;
 
 use self::parser::{Block, ParseError, Rule};
-use crate::block::parser::ParseFrom;
+use crate::block_raw::parser::ParseFrom;
 
 pub mod parser;
 

@@ -1,7 +1,7 @@
 fn main() {
-  use std::str::FromStr;
+    use std::str::FromStr;
 
-  use promptc::block::Unit;
-  let unit: Result<Unit, _> = Unit::from_str("{%");
-  println!("{:?}", unit);
+    use promptc::block_raw::Unit;
+    let unit: Result<Unit, _> = Unit::from_str("{%");
+    println!("{:?}", unit);
 }

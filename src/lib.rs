@@ -1,2 +1,2 @@
-pub mod block;
-pub mod prompt;
+pub mod block_meta;
+pub mod block_raw;
